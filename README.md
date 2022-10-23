@@ -5,7 +5,7 @@ Implementation of slice functions for Go 1.18+ inspired by the [Kotlin Collectio
 ## Download
 
 ```
-go get github.com/micotom/gfuncs v0.1.2
+go get github.com/micotom/gfuncs
 ```
 
 ## Supported Functions
