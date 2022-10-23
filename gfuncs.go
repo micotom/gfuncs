@@ -6,7 +6,7 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-// Missing: associateWith, associateBy, partition, any, none, all, find, findLast
+// Missing: associateWith, associateBy, findLast
 
 type Number interface {
 	constraints.Integer | constraints.Float
@@ -180,4 +180,51 @@ func All[T any](slice []T, fn func(t T) bool) bool {
 		}
 	}
 	return true
+}
+
+func None[T any](slice []T, fn func(t T) bool) bool {
+	return !Any(slice, fn)
+}
+
+func AsSet[T any, V comparable](slice []T, fn func(t T) V) []T {
+	m := make(map[V]T)
+	for _, t := range slice {
+		m[fn(t)] = t
+	}
+	r := make([]T, 0, len(slice))
+	for _, t := range m {
+		r = append(r, t)
+	}
+	return r
+}
+
+func Partition[T any](slice []T, fn func(t T) bool) [][]T {
+	left := make([]T, 0, len(slice))
+	right := make([]T, 0, len(slice))
+	foldFn := func(acc [][]T, t T) [][]T {
+		if fn(t) {
+			acc[0] = append(acc[0], t)
+		} else {
+			acc[1] = append(acc[1], t)
+		}
+		return acc
+	}
+	return Fold(slice, [][]T{left, right}, foldFn)
+}
+
+func Reverse[T any](slice []T) []T {
+	rev := make([]T, len(slice))
+	for i, t := range slice {
+		rev[len(slice)-1-i] = t
+	}
+	return rev
+}
+
+func IndexOf[T any](slice []T, t T, fn func(t T) bool) int {
+	for i, ts := range slice {
+		if fn(t) == fn(ts) {
+			return i
+		}
+	}
+	return -1
 }

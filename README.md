@@ -8,7 +8,7 @@ Implementation of slice functions for Go 1.18+ inspired by the [Kotlin Collectio
 go get github.com/micotom/gfuncs
 ```
 
-## Supported Functions
+## (Some of the) Supported Functions
 
 `Fold` : `[]T, V, (V, T -> V) -> V`
 ```go 
